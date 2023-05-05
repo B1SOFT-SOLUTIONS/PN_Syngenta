@@ -26,14 +26,15 @@ namespace B1SSyngentaAddOn
                     //oApp = new Application(args[0], "XXXXX");
                     oApp = new Application(args[0]);
                 }
-                oCompany = (SAPbobsCOM.Company)Application.SBO_Application.Company.GetDICompany();
                 Menu MyMenu = new Menu();
                 MyMenu.AddMenuItems();
                 oApp.RegisterMenuEventHandler(MyMenu.SBO_Application_MenuEvent);
                 Application.SBO_Application.AppEvent += new SAPbouiCOM._IApplicationEvents_AppEventEventHandler(SBO_Application_AppEvent);
                 Application.SBO_Application.ItemEvent += SBO_Application_ItemEvent;
                 Application.SBO_Application.FormDataEvent += SBO_Application_FormDataEvent;
-                
+                System.Threading.Thread.Sleep(5000);
+                oCompany = (SAPbobsCOM.Company)Application.SBO_Application.Company.GetDICompany();
+
                 oApp.Run();
             }
             catch (Exception ex)
