@@ -610,7 +610,9 @@ namespace B1SSyngentaAddOn
                 NoCRD.RelationshipCode = oCRD.RelationshipCode;*/
                 //NoCRD.AttachmentEntry = oCRD.AttachmentEntry;
                 //NoCRD.TypeOfOperation = oCRD.TypeOfOperation;
-                NoCRD.OwnerCode = oCRD.OwnerCode;
+                if (oCRD.OwnerCode != 0)
+                    NoCRD.OwnerCode = oCRD.OwnerCode;
+
                 NoCRD.AliasName = oCRD.AliasName;
                 //NoCRD.EndorsableChecksFromBP = oCRD.EndorsableChecksFromBP;
                 //NoCRD.AcceptsEndorsedChecks = oCRD.AcceptsEndorsedChecks;
