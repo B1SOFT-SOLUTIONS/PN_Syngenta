@@ -73,7 +73,7 @@ namespace B1SSyngentaAddOn.UIForms.SystemForms
 
         public override void OnInitializeFormEvents()
         {
-            this.LoadAfter += this.PreLcm_LoadAfter;
+            try { this.LoadAfter += this.PreLcm_LoadAfter; } catch { }
         }
 
         private void PreLcm_LoadAfter(SAPbouiCOM.SBOItemEventArg pVal)
@@ -142,7 +142,7 @@ namespace B1SSyngentaAddOn.UIForms.SystemForms
 
         private void OnCustomInitialize()
         {
-            this.btn_main.ClickBefore += Btn_main_ClickBefore;
+            try { this.btn_main.ClickBefore += Btn_main_ClickBefore; } catch { }
         }
 
     }

@@ -255,14 +255,14 @@ namespace B1SSyngentaAddOn
                     oNewItem2 = oOWTMForm.Items.Add("appHome", SAPbouiCOM.BoFormItemTypes.it_CHECK_BOX);
                     SAPbouiCOM.CheckBox chk2 = ((SAPbouiCOM.CheckBox)(oOWTMForm.Items.Item("appHome").Specific));
                     chk2.DataBind.SetBound(true, "OWTM", "U_B1S_EXT_HomeApproval");
-                    obutton = (SAPbouiCOM.CheckBox)oNewItem.Specific;
-                    obutton.Caption = "Aprova pela HOME?";
+                    obutton2 = (SAPbouiCOM.CheckBox)oNewItem2.Specific;
+                    obutton2.Caption = "Aprova pela HOME?";
 
                     oitem2 = oOWTMForm.Items.Item("chkNecJust"); // UI element in the system form to use for positional reference
                     oNewItem2.Top = oitem2.Top;
                     oNewItem2.Height = oitem.Height;
                     oNewItem2.Width = oitem.Width;
-                    oNewItem2.Left = oitem.Left + 100;
+                    oNewItem2.Left = oitem.Left + 120;
 
                     oNewItem2.Visible = true;
                 }
@@ -683,6 +683,8 @@ namespace B1SSyngentaAddOn
                     if (oCRD.UserFields.Fields.Item(i).Name.Equals("U_AGRT_UUID_CardCode"))
                         NoCRD.UserFields.Fields.Item(i).Value = "";
                     else if (oCRD.UserFields.Fields.Item(i).Name.Equals("U_AGRT_UUID_PDR"))
+                        NoCRD.UserFields.Fields.Item(i).Value = "";
+                    else if (oCRD.UserFields.Fields.Item(i).Name.Equals("U_AGRT_CodPNAgrp"))
                         NoCRD.UserFields.Fields.Item(i).Value = "";
                     else
                         NoCRD.UserFields.Fields.Item(i).Value = oCRD.UserFields.Fields.Item(i).Value;

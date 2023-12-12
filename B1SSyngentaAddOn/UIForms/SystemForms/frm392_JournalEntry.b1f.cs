@@ -68,25 +68,27 @@ namespace B1SSyngentaAddOn.UIForms.SystemForms
         /// </summary>
         public override void OnInitializeFormEvents()
         {
-            this.LoadAfter += this.PreLcm_LoadAfter;
-            this.DataLoadAfter += this.LoadDataAfter;
+            try { this.LoadAfter += this.PreLcm_LoadAfter; } catch { }
+            try { this.DataLoadAfter += this.LoadDataAfter; } catch { }
         }
 
         private void LoadDataAfter(ref SAPbouiCOM.BusinessObjectInfo pVal)
         {
-            string transId = edit_TransId.Value.ToString();
-            string identificadorRh = GetSdrIntRhValue(transId);
+            try {
+                string transId = edit_TransId.Value.ToString();
+                string identificadorRh = GetSdrIntRhValue(transId);
 
-            //caso seja nulo significa que o pre lcm e da integração
-            if (String.IsNullOrWhiteSpace(identificadorRh) || identificadorRh == "0")
-                ChangeFormState(true);
-            else
-                ChangeFormState(false);
+                //caso seja nulo significa que o pre lcm e da integração
+                if (String.IsNullOrWhiteSpace(identificadorRh) || identificadorRh == "0")
+                    ChangeFormState(true);
+                else
+                    ChangeFormState(false);
+            } catch { }
         }
 
         private void OnCustomInitialize()
         {
-            this.btn_main.ClickBefore += Btn_main_ClickBefore;
+            try { this.btn_main.ClickBefore += Btn_main_ClickBefore; } catch { }
         }
 
         private void Btn_main_ClickBefore(object sboObject, SAPbouiCOM.SBOItemEventArg pVal, out bool BubbleEvent)
@@ -101,7 +103,7 @@ namespace B1SSyngentaAddOn.UIForms.SystemForms
 
             Application.SBO_Application.SetStatusBarMessage("Não é permitido alterar lançamentos inseridos pela integração RH de forma manual.");
             BubbleEvent = false;
-            btn_main.Item.Enabled = false;
+            try { btn_main.Item.Enabled = false; } catch { }
         }
 
         private void PreLcm_LoadAfter(SAPbouiCOM.SBOItemEventArg pVal)
