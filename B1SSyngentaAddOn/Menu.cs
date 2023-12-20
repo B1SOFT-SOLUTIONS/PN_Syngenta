@@ -75,8 +75,8 @@ namespace B1SSyngentaAddOn
                     UIForms.Parameters activeForm = new UIForms.Parameters();
                     activeForm.UIAPIRawForm.DataSources.UserDataSources.Item("Pane").Value = "1";
 
-                    SAPbouiCOM.ComboBox cmbSeriesPN = (SAPbouiCOM.ComboBox)activeForm.UIAPIRawForm.Items.Item("Item_12").Specific;
-                    SAPbouiCOM.ComboBox cmbGrupoPN = (SAPbouiCOM.ComboBox)activeForm.UIAPIRawForm.Items.Item("Item_13").Specific;
+                    SAPbouiCOM.ComboBox cmbSeriesPN = (SAPbouiCOM.ComboBox)activeForm.UIAPIRawForm.Items.Item("Item_9").Specific;
+                    SAPbouiCOM.ComboBox cmbGrupoPN = (SAPbouiCOM.ComboBox)activeForm.UIAPIRawForm.Items.Item("Item_10").Specific;
 
 
                     while (cmbSeriesPN.ValidValues.Count > 0) { cmbSeriesPN.ValidValues.Remove(0, SAPbouiCOM.BoSearchKey.psk_Index); }
@@ -92,7 +92,7 @@ namespace B1SSyngentaAddOn
                     while (!recordset.EoF) { cmbGrupoPN.ValidValues.Add(recordset.Fields.Item(0).Value.ToString(), recordset.Fields.Item(1).Value.ToString()); recordset.MoveNext(); }
 
                    
-                    activeForm.UIAPIRawForm.DataBrowser.BrowseBy = "Item_2";
+                    activeForm.UIAPIRawForm.DataBrowser.BrowseBy = "Item_5";
 
                     activeForm.Show();
 

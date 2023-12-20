@@ -479,6 +479,9 @@ namespace B1SSyngentaAddOn
 
         static void ReplicaPN(string CardCode)
         {
+            SAPbobsCOM.Recordset recordset1 = (SAPbobsCOM.Recordset)oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
+            recordset1.DoQuery(@"SELECT * FROM ""@B1SEXTCFG"" WHERE ""Code"" = '1'");
+
             int RetVal;
             string NCardCode = "";
             Application.SBO_Application.StatusBar.SetText("Realizando a criação do Fornecedor Conectado...", SAPbouiCOM.BoMessageTime.bmt_Medium, SAPbouiCOM.BoStatusBarMessageType.smt_Warning);
@@ -722,9 +725,9 @@ namespace B1SSyngentaAddOn
 
 
                 NoCRD.CardType = SAPbobsCOM.BoCardTypes.cSupplier;
-                NoCRD.GroupCode = 101;
+                NoCRD.GroupCode = Convert.ToInt32(recordset1.Fields.Item("U_B1S_BPSeries").Value.ToString());
                 //TO-DO: criar parametro
-                NoCRD.Series = 78;
+                NoCRD.Series = Convert.ToInt32(recordset1.Fields.Item("U_B1S_BPGroup").Value.ToString());
 
                 recordset.DoQuery(@"SELECT * FROM OPYM T0 WHERE T0.""Type"" = 'O'");
 

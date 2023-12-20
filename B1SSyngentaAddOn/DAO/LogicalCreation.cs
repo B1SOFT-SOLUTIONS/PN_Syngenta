@@ -13,7 +13,7 @@ namespace B1SSyngentaAddOn.DAO
         public static void criaTabelas(SAPbobsCOM.Company oCompany)
         {
             if (!Helper.TableExist(oCompany, Program.CFGTable))
-                Helper.AddTableToDB(oCompany, Program.CFGTable, "B1S: Syngenta Extension Manager", SAPbobsCOM.BoUTBTableType.bott_MasterData);
+                Helper.AddTableToDB(oCompany, Program.CFGTable, "B1S: Syngenta Extension", SAPbobsCOM.BoUTBTableType.bott_MasterData);
 
             if (!Helper.TableExist(oCompany, "B1S_EXT_DEPARTMENT"))
                 Helper.AddTableToDB(oCompany, "B1S_EXT_DEPARTMENT", "B1S: Departamento", SAPbobsCOM.BoUTBTableType.bott_NoObjectAutoIncrement);
