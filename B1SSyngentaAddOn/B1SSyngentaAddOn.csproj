@@ -90,6 +90,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="UIForms\UserForms\Parameters.b1f.cs">
+      <DependentUpon>Parameters.b1f</DependentUpon>
+    </Compile>
     <None Include="app.config" />
     <None Include="UIForms\SystemForms\frm392_JournalEntry.b1f">
       <FormCategory>SystemForm</FormCategory>
@@ -106,6 +109,8 @@
     <None Include="UIForms\UserForms\Form1.b1f">
       <FormCategory>UserForm</FormCategory>
     </None>
+    <Compile Include="DAO\LogicalCreation.cs" />
+    <Compile Include="DAO\SAPDAO.cs" />
     <Compile Include="UIForms\SystemForms\frm392_JournalEntry.b1f.cs">
       <DependentUpon>frm392_JournalEntry.b1f</DependentUpon>
     </Compile>
@@ -118,12 +123,16 @@
     <Compile Include="Program.cs" />
     <Compile Include="Menu.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <None Include="UIForms\UserForms\Parameters.b1f">
+      <FormCategory>UserForm</FormCategory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Include\SAPBusinessOneSDK.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

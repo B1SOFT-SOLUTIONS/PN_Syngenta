@@ -1,4 +1,5 @@
-﻿using SAPbouiCOM.Framework;
+﻿using B1SSyngentaAddOn.DAO;
+using SAPbouiCOM.Framework;
 using System;
 using System.Collections.Generic;
 
@@ -6,6 +7,8 @@ namespace B1SSyngentaAddOn
 {
     class Program
     {
+        public static string CFGTable = "B1SEXTCFG";
+
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -27,6 +30,54 @@ namespace B1SSyngentaAddOn
                     oApp = new Application(args[0]);
                 }
                 Menu MyMenu = new Menu();
+
+                oCompany = (SAPbobsCOM.Company)Application.SBO_Application.Company.GetDICompany();
+                dbType = oCompany.DbServerType;
+                assembly = System.Reflection.Assembly.GetExecutingAssembly();
+                addOnVersion = assembly.GetName().Version.ToString();
+                addOnName = assembly.GetName().Name.ToString();
+
+                bool CreateFields = true;
+
+                // Valida versão do AddOn
+                SAPbobsCOM.Recordset oVersion = (SAPbobsCOM.Recordset)oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
+                try
+                {
+                    oVersion.DoQuery(@"SELECT ""U_B1S_AddOnVersion"" FROM ""@" + CFGTable + @"""");
+                    string Version = oVersion.Fields.Item(0).Value.ToString();
+                    CreateFields = addOnVersion == Version ? false : true;
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(oVersion);
+                    oVersion = null;
+                    GC.Collect();
+
+                }
+                catch (Exception)
+                {
+                    CreateFields = true;
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(oVersion);
+                    oVersion = null;
+                    GC.Collect();
+
+                }
+
+                /* Cria Campos */
+                if (CreateFields)
+                {
+                    try
+                    {
+                        LogicalCreation.criaTabelas(oCompany);
+                        LogicalCreation.criaCampos(oCompany);
+                        LogicalCreation.criaRegistroUDO(oCompany);
+                        LogicalCreation.SetFirstCodeOnMasterDataTable(oCompany, CFGTable);
+                        LogicalCreation.SetFirstCodeOrUpdateVersionValueOnConfigTable(oCompany, CFGTable, "U_B1S_AddOnVersion", addOnVersion);
+                    }
+                    catch (Exception e)
+                    {
+                        SAPbouiCOM.Framework.Application.SBO_Application.SetStatusBarMessage("Erro inesperado. " + e.Message, SAPbouiCOM.BoMessageTime.bmt_Short, true);
+                    }
+
+                }
+
                 MyMenu.AddMenuItems();
                 oApp.RegisterMenuEventHandler(MyMenu.SBO_Application_MenuEvent);
                 Application.SBO_Application.AppEvent += new SAPbouiCOM._IApplicationEvents_AppEventEventHandler(SBO_Application_AppEvent);
@@ -174,6 +225,18 @@ namespace B1SSyngentaAddOn
         }
 
         public static SAPbobsCOM.Company oCompany;
+        public static bool isMultiBranch = false;
+        public static bool createFields = true;
+        public static SAPbobsCOM.BoDataServerTypes dbType;
+        public static string addOnVersion;
+        public static System.Reflection.Assembly assembly;
+        public static string addOnName;
+        public static SAPbobsCOM.UserFieldsMD oUserField;
+        public static SAPbobsCOM.Recordset oRS = null;
+        public static string currentVersion;
+        public static bool impsotoAjustado = true;
+
+        public static string retLicense;
 
         private static void SBO_Application_ItemEvent(string FormUID, ref SAPbouiCOM.ItemEvent pVal, out bool BubbleEvent)
         {
@@ -442,7 +505,7 @@ namespace B1SSyngentaAddOn
                 //NoCRD.ContactPerson = oCRD.ContactPerson;
                 NoCRD.Notes = oCRD.Notes;
                 //NoCRD.PayTermsGrpCode = oCRD.PayTermsGrpCode;
-                NoCRD.CreditLimit = oCRD.CreditLimit;
+                //NoCRD.CreditLimit = oCRD.CreditLimit; //Removido, chamado #407
                 NoCRD.MaxCommitment = oCRD.MaxCommitment;
                 //NoCRD.DiscountPercent = oCRD.DiscountPercent;
                 //NoCRD.VatLiable = oCRD.VatLiable;
@@ -686,6 +749,16 @@ namespace B1SSyngentaAddOn
                         NoCRD.UserFields.Fields.Item(i).Value = "";
                     else if (oCRD.UserFields.Fields.Item(i).Name.Equals("U_AGRT_CodPNAgrp"))
                         NoCRD.UserFields.Fields.Item(i).Value = "";
+                    else if (oCRD.UserFields.Fields.Item(i).Name.Equals("U_TX_IndFinal"))
+                    { 
+                        if (!string.IsNullOrEmpty(oCRD.UserFields.Fields.Item(i).Value.ToString()))
+                            NoCRD.UserFields.Fields.Item(i).Value = oCRD.UserFields.Fields.Item(i).Value;
+                    }
+                    else if (oCRD.UserFields.Fields.Item(i).Name.Equals("U_TX_SN"))
+                    {
+                        if (!string.IsNullOrEmpty(oCRD.UserFields.Fields.Item(i).Value.ToString()))
+                            NoCRD.UserFields.Fields.Item(i).Value = oCRD.UserFields.Fields.Item(i).Value;
+                    }
                     else
                         NoCRD.UserFields.Fields.Item(i).Value = oCRD.UserFields.Fields.Item(i).Value;
 
