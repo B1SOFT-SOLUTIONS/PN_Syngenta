@@ -479,8 +479,7 @@ namespace B1SSyngentaAddOn
 
         static void ReplicaPN(string CardCode)
         {
-            SAPbobsCOM.Recordset recordset1 = (SAPbobsCOM.Recordset)oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
-            recordset1.DoQuery(@"SELECT * FROM ""@B1SEXTCFG"" WHERE ""Code"" = '1'");
+            
 
             int RetVal;
             string NCardCode = "";
@@ -492,7 +491,8 @@ namespace B1SSyngentaAddOn
                 SAPbobsCOM.BusinessPartners NoCRD = (SAPbobsCOM.BusinessPartners)oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oBusinessPartners);
                 SAPbobsCOM.Recordset recordset = (SAPbobsCOM.Recordset)oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
 
-
+                SAPbobsCOM.Recordset recordset1 = (SAPbobsCOM.Recordset)oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset);
+                recordset1.DoQuery(@"SELECT * FROM ""@B1SEXTCFG"" WHERE ""Code"" = '1'");
 
                 oCRD.GetByKey(CardCode);
 
@@ -725,9 +725,9 @@ namespace B1SSyngentaAddOn
 
 
                 NoCRD.CardType = SAPbobsCOM.BoCardTypes.cSupplier;
-                NoCRD.GroupCode = Convert.ToInt32(recordset1.Fields.Item("U_B1S_BPSeries").Value.ToString());
+                NoCRD.GroupCode = Convert.ToInt32(recordset1.Fields.Item("U_B1S_BPGroup").Value.ToString());
                 //TO-DO: criar parametro
-                NoCRD.Series = Convert.ToInt32(recordset1.Fields.Item("U_B1S_BPGroup").Value.ToString());
+                NoCRD.Series = Convert.ToInt32(recordset1.Fields.Item("U_B1S_BPSeries").Value.ToString());
 
                 recordset.DoQuery(@"SELECT * FROM OPYM T0 WHERE T0.""Type"" = 'O'");
 
