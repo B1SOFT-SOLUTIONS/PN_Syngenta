@@ -726,7 +726,6 @@ namespace B1SSyngentaAddOn
 
                 NoCRD.CardType = SAPbobsCOM.BoCardTypes.cSupplier;
                 NoCRD.GroupCode = Convert.ToInt32(recordset1.Fields.Item("U_B1S_BPGroup").Value.ToString());
-                //TO-DO: criar parametro
                 NoCRD.Series = Convert.ToInt32(recordset1.Fields.Item("U_B1S_BPSeries").Value.ToString());
 
                 recordset.DoQuery(@"SELECT * FROM OPYM T0 WHERE T0.""Type"" = 'O'");

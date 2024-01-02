@@ -18,6 +18,15 @@ namespace B1SSyngentaAddOn.DAO
             if (!Helper.TableExist(oCompany, "B1S_EXT_DEPARTMENT"))
                 Helper.AddTableToDB(oCompany, "B1S_EXT_DEPARTMENT", "B1S: Departamento", SAPbobsCOM.BoUTBTableType.bott_NoObjectAutoIncrement);
 
+            if (!Helper.TableExist(oCompany, "SDR_INTEGRACAO_RH"))
+                Helper.AddTableToDB(oCompany, "SDR_INTEGRACAO_RH", "[SEIDOR] - INTEGRAÇÃO RH", BoUTBTableType.bott_Document);
+
+            if (!Helper.TableExist(oCompany, "SDR_INTEGRACAO_RH_L"))
+                Helper.AddTableToDB(oCompany, "SDR_INTEGRACAO_RH_L", "[SEIDOR] - INTEGRAÇÃO RH LINES", BoUTBTableType.bott_DocumentLines);
+
+            if (!Helper.TableExist(oCompany, "SDR_LOG_INTEGRACAO"))
+                Helper.AddTableToDB(oCompany, "SDR_LOG_INTEGRACAO", "[SEIDOR] - LOG INTEGRAÇÃO", BoUTBTableType.bott_NoObjectAutoIncrement);
+
         }
 
         public static void criaCampos(SAPbobsCOM.Company oCompany)
@@ -59,6 +68,12 @@ namespace B1SSyngentaAddOn.DAO
 
             System.Runtime.InteropServices.Marshal.ReleaseComObject(userFieldsMD);
             userFieldsMD = null;
+
+            if (!Helper.FieldExist(oCompany, "U_B1S_EXT_Depart", "OWTM"))
+                Helper.AddFieldToTable(oCompany, "OWTM", "B1S_EXT_Depart", "Departamento", SAPbobsCOM.BoFieldTypes.db_Alpha, 50, SAPbobsCOM.BoFldSubTypes.st_None, null, "B1S_EXT_DEPARTMENT");
+
+            if (!Helper.FieldExist(oCompany, "U_B1S_EXT_Descricao", "OWTM"))
+                Helper.AddFieldToTable(oCompany, "OWTM", "B1S_EXT_Descricao", "Descricao", SAPbobsCOM.BoFieldTypes.db_Alpha, 200, SAPbobsCOM.BoFldSubTypes.st_None);
             #endregion
 
             #region //OCRD
@@ -102,6 +117,131 @@ namespace B1SSyngentaAddOn.DAO
                 Helper.AddFieldToTable(oCompany, "INV1", "B1S_SFID", "SF ID", SAPbobsCOM.BoFieldTypes.db_Alpha, 100);
             #endregion 
 
+            #region //ITEMS
+            if (!Helper.FieldExist(oCompany, "U_B1S_SFID", "OITM"))
+                Helper.AddFieldToTable(oCompany, "OITM", "B1S_SFID", "SF ID", SAPbobsCOM.BoFieldTypes.db_Alpha, 100);
+            #endregion
+
+            #region //OJDT
+
+            if (!Helper.FieldExist(oCompany, "U_SDR_IntRh", "OJDT"))
+                Helper.AddFieldToTable(oCompany, "OJDT", "SDR_IntRh", "Identificador INT RH", BoFieldTypes.db_Numeric, 10);
+
+            #endregion
+
+            #region //SDR_INTEGRACAO_RH
+
+            if (!Helper.FieldExist(oCompany, "U_empresa", "@SDR_INTEGRACAO_RH"))
+                Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH", "empresa", "Empresa", BoFieldTypes.db_Alpha, 10);
+
+            if (!Helper.FieldExist(oCompany, "U_serie", "@SDR_INTEGRACAO_RH"))
+                Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH", "serie", "Serie", BoFieldTypes.db_Alpha, 10);
+
+            if (!Helper.FieldExist(oCompany, "U_dataLancamento", "@SDR_INTEGRACAO_RH"))
+                Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH", "dataLancamento", "Data Lancamento", BoFieldTypes.db_Date, 8);
+
+            if (!Helper.FieldExist(oCompany, "U_dataVencimento", "@SDR_INTEGRACAO_RH"))
+                Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH", "dataVencimento", "Data Vencimento", BoFieldTypes.db_Date, 8);
+
+            if (!Helper.FieldExist(oCompany, "U_dataDocumento", "@SDR_INTEGRACAO_RH"))
+                Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH", "dataDocumento", "Data Documento", BoFieldTypes.db_Date, 8);
+
+            if (!Helper.FieldExist(oCompany, "U_observacao", "@SDR_INTEGRACAO_RH"))
+                Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH", "observacao", "Observacao", BoFieldTypes.db_Alpha, 150);
+
+            if (!Helper.FieldExist(oCompany, "U_indicador", "@SDR_INTEGRACAO_RH"))
+                Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH", "indicador", "Indicador", BoFieldTypes.db_Alpha, 150);
+
+            if (!Helper.FieldExist(oCompany, "U_projeto", "@SDR_INTEGRACAO_RH"))
+                Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH", "projeto", "Projeto", BoFieldTypes.db_Alpha, 100);
+
+            if (!Helper.FieldExist(oCompany, "U_codigoTransacao", "@SDR_INTEGRACAO_RH"))
+                Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH", "codigoTransacao", "Codigo Transacao", BoFieldTypes.db_Alpha, 150);
+
+            if (!Helper.FieldExist(oCompany, "U_referencia", "@SDR_INTEGRACAO_RH"))
+                Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH", "referencia", "Referencia", BoFieldTypes.db_Alpha, 250);
+
+            if (!Helper.FieldExist(oCompany, "U_referencia2", "@SDR_INTEGRACAO_RH"))
+                Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH", "referencia2", "Referencia 2", BoFieldTypes.db_Alpha, 250);
+
+            if (!Helper.FieldExist(oCompany, "U_referencia3", "@SDR_INTEGRACAO_RH"))
+                Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH", "referencia3", "Referencia 3", BoFieldTypes.db_Alpha, 250);
+
+            if (!Helper.FieldExist(oCompany, "U_ECD", "@SDR_INTEGRACAO_RH"))
+                Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH", "ECD", "ECD", BoFieldTypes.db_Alpha, 250);
+
+            if (!Helper.FieldExist(oCompany, "U_status", "@SDR_INTEGRACAO_RH"))
+                Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH", "status", "Status", BoFieldTypes.db_Alpha, 10);
+
+            if (!Helper.FieldExist(oCompany, "U_DataInicio", "@SDR_INTEGRACAO_RH"))
+                Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH", "DataInicio", "Data Inicio", BoFieldTypes.db_Date, 8);
+
+            if (!Helper.FieldExist(oCompany, "U_DataFim", "@SDR_INTEGRACAO_RH"))
+                Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH", "DataFim", "Data Fim", BoFieldTypes.db_Date, 8);
+
+            if (!Helper.FieldExist(oCompany, "U_Mensagem", "@SDR_INTEGRACAO_RH"))
+                Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH", "Mensagem", "Mensagem", BoFieldTypes.db_Memo, 250);
+
+            #endregion
+
+            #region //SDR_INTEGRACAO_RH_L
+
+            if (!Helper.FieldExist(oCompany, "U_tipoConta", "@SDR_INTEGRACAO_RH_L"))
+                Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH_L", "tipoConta", "Tipo Conta", BoFieldTypes.db_Alpha, 150);
+
+            if (!Helper.FieldExist(oCompany, "U_contaContabil", "@SDR_INTEGRACAO_RH_L"))
+                Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH_L", "contaContabil", "Conta Contabil", BoFieldTypes.db_Alpha, 250);
+
+            if (!Helper.FieldExist(oCompany, "U_valorCredito", "@SDR_INTEGRACAO_RH_L"))
+                Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH_L", "valorCredito", "Valor Credito", BoFieldTypes.db_Numeric, 10);
+
+            if (!Helper.FieldExist(oCompany, "U_valorDebito", "@SDR_INTEGRACAO_RH_L"))
+                Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH_L", "valorDebito", "Valor Debito", BoFieldTypes.db_Numeric, 10);
+
+           if (!Helper.FieldExist(oCompany, "U_observacao", "@SDR_INTEGRACAO_RH_L"))
+                Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH_L", "observacao", "Observacao", BoFieldTypes.db_Alpha, 250);
+            
+            if (!Helper.FieldExist(oCompany, "U_referencia", "@SDR_INTEGRACAO_RH_L"))
+                Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH_L", "referencia", "Referencia", BoFieldTypes.db_Alpha, 250);
+
+            if (!Helper.FieldExist(oCompany, "U_referencia2", "@SDR_INTEGRACAO_RH_L"))
+                Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH_L", "referencia2", "Referencia 2", BoFieldTypes.db_Alpha, 250);
+
+            if (!Helper.FieldExist(oCompany, "U_referencia3", "@SDR_INTEGRACAO_RH_L"))
+                Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH_L", "referencia3", "Referencia 3", BoFieldTypes.db_Alpha, 250);
+
+            if (!Helper.FieldExist(oCompany, "U_dataVencimento", "@SDR_INTEGRACAO_RH_L"))
+                Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH_L", "dataVencimento", "Data Vencimento", BoFieldTypes.db_Date, 8);
+
+            if (!Helper.FieldExist(oCompany, "U_centroCusto", "@SDR_INTEGRACAO_RH_L"))
+                Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH_L", "centroCusto", "Centro Custo", BoFieldTypes.db_Alpha, 250);
+
+            if (!Helper.FieldExist(oCompany, "U_filial", "@SDR_INTEGRACAO_RH_L"))
+                Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH_L", "filial", "Filial", BoFieldTypes.db_Alpha, 250);
+
+            #endregion
+
+            #region //SDR_LOG_INTEGRACAO
+
+            if (!Helper.FieldExist(oCompany, "U_CNPJ", "@SDR_LOG_INTEGRACAO"))
+                Helper.AddFieldToTable(oCompany, "@SDR_LOG_INTEGRACAO", "CNPJ", "CNPJ", BoFieldTypes.db_Alpha, 25);
+
+            if (!Helper.FieldExist(oCompany, "U_Desc", "@SDR_LOG_INTEGRACAO"))
+                Helper.AddFieldToTable(oCompany, "@SDR_LOG_INTEGRACAO", "Desc", "Descricao", BoFieldTypes.db_Alpha, 25);
+
+            if (!Helper.FieldExist(oCompany, "U_Sys_Destino", "@SDR_LOG_INTEGRACAO"))
+                Helper.AddFieldToTable(oCompany, "@SDR_LOG_INTEGRACAO", "Sys_Destino", "Destino", BoFieldTypes.db_Alpha, 25);
+
+            if (!Helper.FieldExist(oCompany, "U_Data", "@SDR_LOG_INTEGRACAO"))
+                Helper.AddFieldToTable(oCompany, "@SDR_LOG_INTEGRACAO", "Data", "Data", BoFieldTypes.db_Alpha, 25);
+
+            if (!Helper.FieldExist(oCompany, "U_Hora", "@SDR_LOG_INTEGRACAO"))
+                Helper.AddFieldToTable(oCompany, "@SDR_LOG_INTEGRACAO", "Hora", "Hora", BoFieldTypes.db_Alpha, 25);
+
+            if (!Helper.FieldExist(oCompany, "U_Erro", "@SDR_LOG_INTEGRACAO"))
+                Helper.AddFieldToTable(oCompany, "@SDR_LOG_INTEGRACAO", "Erro", "Erro", BoFieldTypes.db_Alpha, 25);
+
+            #endregion
 
             //CONFIG
             if (!Helper.FieldExist(oCompany, "U_B1S_AddOnVersion", "@" + Program.CFGTable))
