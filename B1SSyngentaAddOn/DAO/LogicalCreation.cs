@@ -91,6 +91,25 @@ namespace B1SSyngentaAddOn.DAO
 
             if (!Helper.FieldExist(oCompany, "U_SOL_ConcCredito", "OCRD"))
                 Helper.AddFieldToTable(oCompany, "OCRD", "SOL_ConcCredito", "Concessão do Crédito", SAPbobsCOM.BoFieldTypes.db_Date, 8, SAPbobsCOM.BoFldSubTypes.st_None, null);
+
+            
+
+            if (!Helper.FieldExist(oCompany, "U_B1S_RelationDateType", "OCRD"))
+            {
+                oUserField = (SAPbobsCOM.UserFieldsMD)Program.oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.oUserFields);
+                oUserField.ValidValues.Value = "BP";
+                oUserField.ValidValues.Description = "Alteração para Cliente";
+                oUserField.ValidValues.Add();
+
+                oUserField.ValidValues.Value = "NS";
+                oUserField.ValidValues.Description = "Emissão de NF Saída";
+                oUserField.ValidValues.Add();
+
+                Helper.AddFieldToTable(oCompany, "OCRD", "B1S_RelationDateType", "Tipo de Data de Relação", BoFieldTypes.db_Alpha, 2, BoFldSubTypes.st_None, oUserField.ValidValues);
+
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(oUserField);
+                oUserField = null;
+            }
             #endregion
 
             #region //OCPR
@@ -170,8 +189,8 @@ namespace B1SSyngentaAddOn.DAO
             if (!Helper.FieldExist(oCompany, "U_ECD", "@SDR_INTEGRACAO_RH"))
                 Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH", "ECD", "ECD", BoFieldTypes.db_Alpha, 250);
 
-            if (!Helper.FieldExist(oCompany, "U_status", "@SDR_INTEGRACAO_RH"))
-                Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH", "status", "Status", BoFieldTypes.db_Alpha, 10);
+            if (!Helper.FieldExist(oCompany, "U_Status", "@SDR_INTEGRACAO_RH"))
+                Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH", "Status", "Status", BoFieldTypes.db_Alpha, 10);
 
             if (!Helper.FieldExist(oCompany, "U_DataInicio", "@SDR_INTEGRACAO_RH"))
                 Helper.AddFieldToTable(oCompany, "@SDR_INTEGRACAO_RH", "DataInicio", "Data Inicio", BoFieldTypes.db_Date, 8);
