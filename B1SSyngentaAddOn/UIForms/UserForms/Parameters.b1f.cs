@@ -27,6 +27,8 @@ namespace B1SSyngentaAddOn.UIForms
             this.StaticText1 = ((SAPbouiCOM.StaticText)(this.GetItem("Item_8").Specific));
             this.ComboBox0 = ((SAPbouiCOM.ComboBox)(this.GetItem("Item_9").Specific));
             this.ComboBox1 = ((SAPbouiCOM.ComboBox)(this.GetItem("Item_10").Specific));
+            this.StaticText2 = ((SAPbouiCOM.StaticText)(this.GetItem("Item_2").Specific));
+            this.ComboBox2 = ((SAPbouiCOM.ComboBox)(this.GetItem("Item_3").Specific));
             this.OnCustomInitialize();
 
         }
@@ -47,6 +49,8 @@ namespace B1SSyngentaAddOn.UIForms
 
             this.ComboBox0.DataBind.SetBound(true, "@" + Program.CFGTable, "U_B1S_BPSeries");
             this.ComboBox1.DataBind.SetBound(true, "@" + Program.CFGTable, "U_B1S_BPGroup");
+            this.ComboBox2.DataBind.SetBound(true, "@" + Program.CFGTable, "U_B1S_BPPropRuralEnd");
+
 
             this.EditText0.Item.Visible = false;
 
@@ -60,5 +64,7 @@ namespace B1SSyngentaAddOn.UIForms
         private SAPbouiCOM.StaticText StaticText1;
         private SAPbouiCOM.ComboBox ComboBox0;
         private SAPbouiCOM.ComboBox ComboBox1;
+        private SAPbouiCOM.StaticText StaticText2;
+        private SAPbouiCOM.ComboBox ComboBox2;
     }
 }

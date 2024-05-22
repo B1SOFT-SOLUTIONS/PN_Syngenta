@@ -60,6 +60,8 @@ namespace B1SSyngentaAddOn
 
                 }
 
+                //CreateFields = true;
+
                 /* Cria Campos */
                 if (CreateFields)
                 {
@@ -67,6 +69,7 @@ namespace B1SSyngentaAddOn
                     {
                         LogicalCreation.criaTabelas(oCompany);
                         LogicalCreation.criaCampos(oCompany);
+                        LogicalCreation.CriaAutoriz(oCompany);
                         LogicalCreation.criaRegistroUDO(oCompany);
                         LogicalCreation.SetFirstCodeOnMasterDataTable(oCompany, CFGTable);
                         LogicalCreation.SetFirstCodeOrUpdateVersionValueOnConfigTable(oCompany, CFGTable, "U_B1S_AddOnVersion", addOnVersion);
@@ -810,7 +813,14 @@ namespace B1SSyngentaAddOn
                         if (oCRD.Addresses.UserFields.Fields.Item(iEnd).Name.Equals("U_AGRT_UUID_PPR"))
                             NoCRD.Addresses.UserFields.Fields.Item(iEnd).Value = "";
                         else if (oCRD.Addresses.UserFields.Fields.Item(iEnd).Name.Equals("U_AGRT_PropriedadeRural"))
+                        {
+                            if (recordset.Fields.Item("U_B1S_BPPropRuralEnd").Value.ToString().Equals("C"))
+                                NoCRD.Addresses.UserFields.Fields.Item(iEnd).Value = oCRD.Addresses.UserFields.Fields.Item(iEnd).Value;
+                            else if (recordset.Fields.Item("U_B1S_BPPropRuralEnd").Value.ToString().Equals("Y"))
+                                NoCRD.Addresses.UserFields.Fields.Item(iEnd).Value = "Y";
+                            else
                                 NoCRD.Addresses.UserFields.Fields.Item(iEnd).Value = "N";
+                        }
                         else
                             NoCRD.Addresses.UserFields.Fields.Item(iEnd).Value = oCRD.Addresses.UserFields.Fields.Item(iEnd).Value;
                         

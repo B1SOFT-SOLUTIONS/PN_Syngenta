@@ -274,9 +274,11 @@ namespace B1SSyngentaAddOn.DAO
 
             if (!Helper.FieldExist(oCompany, "U_B1S_BPGroup", "@" + Program.CFGTable))
                 Helper.AddFieldToTable(oCompany, "@" + Program.CFGTable, "B1S_BPGroup", "Grupo PN", SAPbobsCOM.BoFieldTypes.db_Alpha, 10);
-            
 
-           
+            if (!Helper.FieldExist(oCompany, "U_B1S_BPPropRuralEnd", "@" + Program.CFGTable))
+                Helper.AddFieldToTable(oCompany, "@" + Program.CFGTable, "B1S_BPPropRuralEnd", "Prop Rural End PN", SAPbobsCOM.BoFieldTypes.db_Alpha, 10); 
+
+
         }
 
         public static void criaRegistroUDO(SAPbobsCOM.Company oCompany)
