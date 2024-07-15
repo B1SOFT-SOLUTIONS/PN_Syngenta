@@ -814,9 +814,9 @@ namespace B1SSyngentaAddOn
                             NoCRD.Addresses.UserFields.Fields.Item(iEnd).Value = "";
                         else if (oCRD.Addresses.UserFields.Fields.Item(iEnd).Name.Equals("U_AGRT_PropriedadeRural"))
                         {
-                            if (recordset.Fields.Item("U_B1S_BPPropRuralEnd").Value.ToString().Equals("C"))
+                            if (recordset1.Fields.Item("U_B1S_BPPropRuralEnd").Value.ToString().Equals("C"))
                                 NoCRD.Addresses.UserFields.Fields.Item(iEnd).Value = oCRD.Addresses.UserFields.Fields.Item(iEnd).Value;
-                            else if (recordset.Fields.Item("U_B1S_BPPropRuralEnd").Value.ToString().Equals("Y"))
+                            else if (recordset1.Fields.Item("U_B1S_BPPropRuralEnd").Value.ToString().Equals("Y"))
                                 NoCRD.Addresses.UserFields.Fields.Item(iEnd).Value = "Y";
                             else
                                 NoCRD.Addresses.UserFields.Fields.Item(iEnd).Value = "N";
