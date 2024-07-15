@@ -971,6 +971,7 @@ namespace B1SSyngentaAddOn
                     oCompany.EndTransaction(SAPbobsCOM.BoWfTransOpt.wf_RollBack);
 
                 Application.SBO_Application.StatusBar.SetText(ex.Message);
+                Application.SBO_Application.MessageBox(ex.Message + " - StackTrace: " + ex.StackTrace);
 
                 //throw new Exception(ex.Message);
             }
