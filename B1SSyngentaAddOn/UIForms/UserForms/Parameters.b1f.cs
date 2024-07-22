@@ -51,7 +51,6 @@ namespace B1SSyngentaAddOn.UIForms
             this.ComboBox1.DataBind.SetBound(true, "@" + Program.CFGTable, "U_B1S_BPGroup");
             this.ComboBox2.DataBind.SetBound(true, "@" + Program.CFGTable, "U_B1S_BPPropRuralEnd");
 
-
             this.EditText0.Item.Visible = false;
 
         }
