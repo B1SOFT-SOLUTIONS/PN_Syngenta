@@ -63,10 +63,20 @@ namespace B1SSyngentaAddOn
 
             try
             {
-                SAPbouiCOM.Form form = Application.SBO_Application.Forms.ActiveForm;
-                if (pVal.MenuUID == "6913" && (form.TypeEx == "50101" || form.TypeEx == "50102"))
+                if (pVal.MenuUID == "6913")
                 {
-                    BubbleEvent = false;
+                    try
+                    {
+                        SAPbouiCOM.Form form = Application.SBO_Application.Forms.ActiveForm;
+                        if (form.TypeEx == "50101" || form.TypeEx == "50102")
+                        {
+                            BubbleEvent = false;
+                            return;
+                        }
+                    }
+                    catch
+                    { }
+                    
                     return;
                 }
 
