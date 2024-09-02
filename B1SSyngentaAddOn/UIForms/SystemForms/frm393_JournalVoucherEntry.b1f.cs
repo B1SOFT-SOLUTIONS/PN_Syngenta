@@ -74,6 +74,23 @@ namespace B1SSyngentaAddOn.UIForms.SystemForms
         public override void OnInitializeFormEvents()
         {
             try { this.LoadAfter += this.PreLcm_LoadAfter; } catch { }
+            try { this.DataLoadAfter += this.LoadDataAfter; } catch { }
+        }
+
+        private void LoadDataAfter(ref SAPbouiCOM.BusinessObjectInfo pVal)
+        {
+            try
+            {
+                string transId = edit_TransId.Value.ToString();
+                string identificadorRh = GetSdrIntRhValue(transId);
+
+                //caso seja nulo significa que o pre lcm e da integração
+                if (String.IsNullOrWhiteSpace(identificadorRh) || identificadorRh == "0")
+                    ChangeFormState(true);
+                else
+                    ChangeFormState(false);
+            }
+            catch { }
         }
 
         private void PreLcm_LoadAfter(SAPbouiCOM.SBOItemEventArg pVal)
@@ -85,7 +102,9 @@ namespace B1SSyngentaAddOn.UIForms.SystemForms
             if (String.IsNullOrWhiteSpace(identificadorRh))
                 return;
 
-            DisableForm();
+            ChangeFormState(false);
+
+            //DisableForm();
         }
 
         private string GetSdrIntRhValue(string transId)
@@ -143,6 +162,172 @@ namespace B1SSyngentaAddOn.UIForms.SystemForms
         private void OnCustomInitialize()
         {
             try { this.btn_main.ClickBefore += Btn_main_ClickBefore; } catch { }
+        }
+
+        private void ChangeFormState(bool newState)
+        {
+            try
+            {
+                cmb_series.Item.Enabled = newState;
+            }
+            catch (Exception)
+            {
+                // Tratamento de exceção
+            }
+
+            try
+            {
+                edit_refdate.Item.Enabled = newState;
+            }
+            catch (Exception)
+            {
+                // Tratamento de exceção
+            }
+
+            try
+            {
+                edit_taxdate.Item.Enabled = newState;
+            }
+            catch (Exception)
+            {
+                // Tratamento de exceção
+            }
+
+            try
+            {
+                edit_duedate.Item.Enabled = newState;
+            }
+            catch (Exception)
+            {
+                // Tratamento de exceção
+            }
+
+            try
+            {
+                edit_memo.Item.Enabled = newState;
+            }
+            catch (Exception)
+            {
+                // Tratamento de exceção
+            }
+
+            try
+            {
+                cmb_indicator.Item.Enabled = newState;
+            }
+            catch (Exception)
+            {
+                // Tratamento de exceção
+            }
+
+            try
+            {
+                edit_project.Item.Enabled = newState;
+            }
+            catch (Exception)
+            {
+                // Tratamento de exceção
+            }
+
+            try
+            {
+                cmb_transcode.Item.Enabled = newState;
+            }
+            catch (Exception)
+            {
+                // Tratamento de exceção
+            }
+
+            try
+            {
+                edit_refOne.Item.Enabled = newState;
+            }
+            catch (Exception)
+            {
+                // Tratamento de exceção
+            }
+
+            try
+            {
+                edit_refTwo.Item.Enabled = newState;
+            }
+            catch (Exception)
+            {
+                // Tratamento de exceção
+            }
+
+            try
+            {
+                edit_refThree.Item.Enabled = newState;
+            }
+            catch (Exception)
+            {
+                // Tratamento de exceção
+            }
+
+            try
+            {
+                cmb_ecdType.Item.Enabled = newState;
+            }
+            catch (Exception)
+            {
+                // Tratamento de exceção
+            }
+
+            try
+            {
+                cmb_matriz.Item.Enabled = newState;
+            }
+            catch (Exception)
+            {
+                // Tratamento de exceção
+            }
+
+            try
+            {
+                btn_main.Item.Enabled = newState;
+            }
+            catch (Exception)
+            {
+                // Tratamento de exceção
+            }
+
+            try
+            {
+                mtx_Lines.Item.Enabled = newState;
+            }
+            catch (Exception)
+            {
+                // Tratamento de exceção
+            }
+
+            try
+            {
+                chk_cambio.Item.Enabled = newState;
+            }
+            catch (Exception)
+            {
+                // Tratamento de exceção
+            }
+
+            try
+            {
+                chk_estorno.Item.Enabled = newState;
+            }
+            catch (Exception)
+            {
+                // Tratamento de exceção
+            }
+
+            try
+            {
+                chk_comp.Item.Enabled = newState;
+            }
+            catch (Exception)
+            {
+                // Tratamento de exceção
+            }
+
         }
 
     }
