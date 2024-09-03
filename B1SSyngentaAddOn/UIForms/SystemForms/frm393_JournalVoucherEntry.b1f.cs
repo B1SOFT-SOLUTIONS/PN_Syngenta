@@ -9,6 +9,7 @@ namespace B1SSyngentaAddOn.UIForms.SystemForms
     [FormAttribute("393", "UIForms/SystemForms/frm393_JournalVoucherEntry.b1f")]
     class frm393_JournalVoucher : SystemFormBase
     {
+        private SAPbouiCOM.EditText edit_BatchId;
         private SAPbouiCOM.EditText edit_TransId;
         private SAPbouiCOM.Matrix mtx_Lines;
         private SAPbouiCOM.EditText edit_refdate;
@@ -43,6 +44,7 @@ namespace B1SSyngentaAddOn.UIForms.SystemForms
         /// </summary>
         public override void OnInitializeComponent()
         {
+            this.edit_BatchId = this.GetSpecificItem<SAPbouiCOM.EditText>("139");
             this.edit_TransId = this.GetSpecificItem<SAPbouiCOM.EditText>("5");
             this.edit_refdate = this.GetSpecificItem<SAPbouiCOM.EditText>("6");
             this.edit_duedate = this.GetSpecificItem<SAPbouiCOM.EditText>("102");
@@ -82,7 +84,8 @@ namespace B1SSyngentaAddOn.UIForms.SystemForms
             try
             {
                 string transId = edit_TransId.Value.ToString();
-                string identificadorRh = GetSdrIntRhValue(transId);
+                string batchId = edit_BatchId.Value.ToString();
+                string identificadorRh = GetSdrIntRhValue(batchId, transId);
 
                 //caso seja nulo significa que o pre lcm e da integração
                 if (String.IsNullOrWhiteSpace(identificadorRh) || identificadorRh == "0")
@@ -96,7 +99,8 @@ namespace B1SSyngentaAddOn.UIForms.SystemForms
         private void PreLcm_LoadAfter(SAPbouiCOM.SBOItemEventArg pVal)
         {
             string transId = edit_TransId.Value.ToString();
-            string identificadorRh = GetSdrIntRhValue(transId);
+            string batchId = edit_BatchId.Value.ToString();
+            string identificadorRh = GetSdrIntRhValue(batchId, transId);
 
             //caso seja nulo significa que o pre lcm e da integração
             if (String.IsNullOrWhiteSpace(identificadorRh))
@@ -107,19 +111,27 @@ namespace B1SSyngentaAddOn.UIForms.SystemForms
             //DisableForm();
         }
 
-        private string GetSdrIntRhValue(string transId)
+        private string GetSdrIntRhValue(string batchId, string transId)
         {
-            string query = $"SELECT \"U_SDR_IntRh\" FROM OBTF WHERE \"TransId\" = {transId} ";
+            string ret_val = "";
+            string query = $"SELECT COALESCE(\"U_SDR_IntRh\",0) \"U_SDR_IntRh\" FROM OBTF WHERE TO_VARCHAR(\"BatchNum\") = '{batchId}' AND TO_VARCHAR(\"TransId\") = '{transId}' ";
 
             SAPbobsCOM.Recordset oRec = ((SAPbobsCOM.Recordset)Program.oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset));
 
             oRec.DoQuery(query);
 
-            if (oRec.RecordCount == 0) return "";
+            if (oRec.RecordCount == 0) ret_val = "";
 
-            if (oRec.Fields.Item("U_SDR_IntRh").Value == null) return "";
+            if (oRec.Fields.Item("U_SDR_IntRh").Value == null) ret_val = "";
 
-            return oRec.Fields.Item("U_SDR_IntRh").Value.ToString();
+            ret_val = oRec.Fields.Item("U_SDR_IntRh").Value.ToString();
+
+            if(ret_val == "0")
+                ret_val = "";
+
+            //Application.SBO_Application.MessageBox("GetSdrIntRhValue: '" + ret_val + "'");
+
+            return ret_val;
         }
 
         private void DisableForm()
@@ -148,7 +160,8 @@ namespace B1SSyngentaAddOn.UIForms.SystemForms
         {
             BubbleEvent = true;
             string transId = edit_TransId.Value.ToString();
-            string identificadorRh = GetSdrIntRhValue(transId);
+            string batchId = edit_BatchId.Value.ToString();
+            string identificadorRh = GetSdrIntRhValue(batchId, transId);
 
             //caso seja nulo significa que o pre lcm e da integração
             if (String.IsNullOrWhiteSpace(identificadorRh))
