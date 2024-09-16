@@ -97,7 +97,7 @@ namespace B1SSyngentaAddOn.UIForms.SystemForms
             string transId = edit_TransId.Value.ToString();
             string identificadorRh = GetSdrIntRhValue(transId);
 
-            //caso seja nulo significa que o pre lcm e da integração
+            //caso seja nulo significa que o pre lcm não e da integração
             if (String.IsNullOrWhiteSpace(identificadorRh))
                 return;
 
@@ -122,17 +122,25 @@ namespace B1SSyngentaAddOn.UIForms.SystemForms
         {
             if (String.IsNullOrWhiteSpace(transId))
                 return "";
-            string query = $"SELECT \"U_SDR_IntRh\" FROM OJDT WHERE \"TransId\" = {transId} ";
+            string ret_val = "";
+            string query = $"SELECT COALESCE(\"U_SDR_IntRh\",0) \"U_SDR_IntRh\" FROM OJDT WHERE \"TransId\" = {transId} ";
 
             SAPbobsCOM.Recordset oRec = ((SAPbobsCOM.Recordset)Program.oCompany.GetBusinessObject(SAPbobsCOM.BoObjectTypes.BoRecordset));
 
             oRec.DoQuery(query);
 
-            if (oRec.RecordCount == 0) return "";
+            if (oRec.RecordCount == 0) ret_val = "";
 
-            if (oRec.Fields.Item("U_SDR_IntRh").Value == null) return "";
+            if (oRec.Fields.Item("U_SDR_IntRh").Value == null) ret_val = "";
 
-            return oRec.Fields.Item("U_SDR_IntRh").Value.ToString();
+            ret_val = oRec.Fields.Item("U_SDR_IntRh").Value.ToString();
+
+            if (ret_val == "0")
+                ret_val = "";
+
+            //Application.SBO_Application.MessageBox("GetSdrIntRhValue: '" + ret_val + "'");
+
+            return ret_val;
         }
 
         private void ChangeFormState(bool newState)
